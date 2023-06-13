@@ -1,1 +1,14 @@
-Hoje eu preciso estudar
+{
+  "todos": [
+    {
+      "date": "2023-06-13T20:57:58.337Z",
+      "content": "Primeira TODO",
+      "done": false
+    },
+    {
+      "date": "2023-06-13T20:57:58.338Z",
+      "content": "Segunda TODO",
+      "done": false
+    }
+  ]
+}

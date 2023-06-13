@@ -1,9 +1,10 @@
 
-const fs = require("fs")
+import fs from "fs";
+
 const DB_FILE_PATH = './core/db'
 console.log('[CRUD]')
 
-function create(content){
+function create(content: string){
     //precisa salvar o content no sistema
     fs.writeFileSync(DB_FILE_PATH, content)
     return content;

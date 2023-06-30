@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es2016", 
+    "target": "es2016",
     "module": "commonjs",
-    "forceConsistentCasingInFileNames": true, 
+    "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
     "lib": [
@@ -22,7 +22,8 @@
       "@ui/*": [
         "src/ui/*"
       ]
-    }
+    },
+    "esModuleInterop": true
   },
   "include": [
     "next-env.d.ts",

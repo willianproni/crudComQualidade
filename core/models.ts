@@ -1,7 +1,7 @@
 import { UUID } from "crypto";
 
 export interface ResultTodos {
-    todos: Todo[]
+    todos: Todo[];
 }
 
 export interface Todo {
@@ -9,4 +9,4 @@ export interface Todo {
     date: string;
     content: string;
     done: boolean;
-};
+}

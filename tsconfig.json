@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es2016", 
+    "target": "es2016",
     "module": "commonjs",
-    "forceConsistentCasingInFileNames": true, 
+    "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
     "lib": [
@@ -21,8 +21,15 @@
     "paths": {
       "@ui/*": [
         "src/ui/*"
+      ],
+      "@db-crud-todo": [
+        "core/crud.ts"
+      ],
+      "@server/*": [
+        "src/server/*"
       ]
-    }
+    },
+    "esModuleInterop": true
   },
   "include": [
     "next-env.d.ts",

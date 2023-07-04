@@ -6,6 +6,14 @@ import { UUID, randomUUID } from "crypto";
 const DB_FILE_PATH = "./core/db"; //caminho do arquivo
 
 //writeFileSync --> escrever um arquivo de maneira assíncrona fs.writeFileSync('caminho do arquivo (onde vai ser salvo)', conteúdo do arquivo)
+export function read(): Todo[] {
+    //Função para leitura da lista (GET)
+    const dbString = fs.readFileSync(DB_FILE_PATH, "utf-8"); //Faz a leitura do arquivo e retorna no formato utf-8
+    const db: ResultTodos = JSON.parse(dbString || "{}"); //Converte a lista que retonar em JSON, caso venha vazia retornar um objeto{}
+    if (!db.todos) return []; //Verificar se tem valor caso não tenha retornar []
+    return db.todos; //Retorno do valor
+}
+
 function create(content: string): Todo {
     //Simula a criação de um dado no banco, aqui estamos criando um arquivo com o dado enviado (POST)
     const todo: Todo = {
@@ -35,14 +43,6 @@ function create(content: string): Todo {
         )
     ); //salvando o conteúdo(content) no arquivo DB_FILE_PATH
     return todo; //Retornando a lista
-}
-
-function read(): Todo[] {
-    //Função para leitura da lista (GET)
-    const dbString = fs.readFileSync(DB_FILE_PATH, "utf-8"); //Faz a leitura do arquivo e retorna no formato utf-8
-    const db: ResultTodos = JSON.parse(dbString || "{}"); //Converte a lista que retonar em JSON, caso venha vazia retornar um objeto{}
-    if (!db.todos) return []; //Verificar se tem valor caso não tenha retornar []
-    return db.todos; //Retorno do valor
 }
 
 function update(idUptdate: UUID, contentUpdate: Partial<Todo>) {
@@ -109,8 +109,8 @@ deleteById(responseTwoCreate.id); // Deletando o segundo objeto criado
 //--------
 updateContentById(responseThreeCreate.id, "Atualização do content"); //Atualizando o terceiro objeto criado
 //--------
-const todos = read(); //Lendo a lista de tarefas
-//--------
-// -- Visualização
-console.log(todos); //Visualizar lista de tarefas
-console.log("Tamanho da Todos: ", todos.length); //Verificar tamanho da lista de tarefas
+// const todos = read(); //Lendo a lista de tarefas
+// //--------
+// // -- Visualização
+// console.log(todos); //Visualizar lista de tarefas
+// console.log("Tamanho da Todos: ", todos.length); //Verificar tamanho da lista de tarefas

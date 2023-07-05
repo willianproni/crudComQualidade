@@ -2,20 +2,16 @@
 import React, { useEffect, useState } from "react";
 import { GlobalStyles } from "@ui/theme/GlobalStyles";
 import { Todo } from "core/models";
+import { controller } from "@ui/controller/todo";
 const bg = "https://mariosouto.com/cursos/crudcomqualidade/bg";
 
 export default function Page() {
     const [todoList, setTodoList] = useState<Todo[]>([]);
 
     useEffect(() => {
-        async function getTodoList() {
-            fetch("/api/todos").then(async (res) => {
-                const response = await res.json();
-                setTodoList(response.todos);
-            });
-        }
-
-        getTodoList();
+        controller.getListTodo().then(({ todos }) => {
+            setTodoList(todos);
+        });
     }, []);
 
     return (

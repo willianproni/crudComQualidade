@@ -1,7 +1,13 @@
-import { ResultTodos } from "core/models";
+import { todoRepository } from "@ui/repository/todo";
+interface TodoControllerGetParams {
+    pageNumber: number;
+}
 
-async function getListTodo(): Promise<ResultTodos> {
-    return fetch("/api/todos").then((res) => res.json());
+async function getListTodo({ pageNumber }: TodoControllerGetParams) {
+    return todoRepository.get({
+        page: pageNumber,
+        limit: 10,
+    });
 }
 
 export const controller = {

@@ -1,17 +1,43 @@
 /* eslint-disable no-console */
 import React, { useEffect, useState } from "react";
 import { GlobalStyles } from "@ui/theme/GlobalStyles";
-import { Todo } from "core/models";
 import { controller } from "@ui/controller/todo";
 const bg = "https://mariosouto.com/cursos/crudcomqualidade/bg";
 
+interface HomeTodo {
+    id: string;
+    content: string;
+    date: Date;
+    done: boolean;
+}
+
 export default function Page() {
-    const [todoList, setTodoList] = useState<Todo[]>([]);
+    const [initialLoadComplete, setInitialLoadComplete] = useState(false);
+    const [todoSearch, setTodoSearch] = useState("");
+    const [totalPages, setTotalPages] = useState(0);
+    const [todoList, setTodoList] = useState<HomeTodo[]>([]);
+    const [loading, setLoading] = useState(true);
+    const availablePages = [1, 2, 3, 4, 5];
+    const totalAvailablePages = availablePages.slice(0, totalPages);
+
+    const homeTodos = todoList.filter((todo) => {
+        return todo.content
+            .toLocaleLowerCase()
+            .includes(todoSearch.toLocaleLowerCase());
+    });
 
     useEffect(() => {
-        controller.getListTodo().then(({ todos }) => {
-            setTodoList(todos);
-        });
+        setInitialLoadComplete(true);
+        if (!initialLoadComplete) {
+            controller
+                .getListTodo({ pageNumber: 1 })
+                .then(({ todos, totalPages }) => {
+                    console.log(`valor retornando:`, todos);
+                    setTodoList(todos);
+                    setTotalPages(totalPages);
+                    setLoading(false);
+                });
+        }
     }, []);
 
     return (
@@ -38,6 +64,9 @@ export default function Page() {
                     <input
                         type="text"
                         placeholder="Filtrar lista atual, ex: Dentista"
+                        onChange={function handleSearch(event) {
+                            setTodoSearch(event.target.value);
+                        }}
                     />
                 </form>
 
@@ -54,7 +83,21 @@ export default function Page() {
                     </thead>
 
                     <tbody>
-                        {todoList.map((todo) => {
+                        {loading ? (
+                            <tr>
+                                <td
+                                    colSpan={4}
+                                    align="center"
+                                    style={{ textAlign: "center" }}
+                                >
+                                    Carregando...
+                                </td>
+                            </tr>
+                        ) : (
+                            ""
+                        )}
+
+                        {homeTodos.map((todo) => {
                             return (
                                 <tr key={todo.id}>
                                     <td>
@@ -71,42 +114,35 @@ export default function Page() {
                             );
                         })}
 
-                        <tr>
-                            <td
-                                colSpan={4}
-                                align="center"
-                                style={{ textAlign: "center" }}
-                            >
-                                Carregando...
-                            </td>
-                        </tr>
+                        {homeTodos.length === 0 && !loading ? (
+                            <tr>
+                                <td colSpan={4} align="center">
+                                    Nenhum item encontrado
+                                </td>
+                            </tr>
+                        ) : null}
 
-                        <tr>
-                            <td colSpan={4} align="center">
-                                Nenhum item encontrado
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td
-                                colSpan={4}
-                                align="center"
-                                style={{ textAlign: "center" }}
+                        {totalAvailablePages.map((numberPage, index) => (
+                            <button
+                                data-type="nav"
+                                onClick={() => {
+                                    const nextPage = numberPage;
+                                    console.log(`nextPage`, nextPage);
+                                    controller
+                                        .getListTodo({
+                                            pageNumber: nextPage,
+                                        })
+                                        .then(({ todos, totalPages }) => {
+                                            setTodoList(todos);
+                                            setTotalPages(totalPages);
+                                            setLoading(false);
+                                        });
+                                }}
+                                key={index}
                             >
-                                <button data-type="load-more">
-                                    Carregar mais{" "}
-                                    <span
-                                        style={{
-                                            display: "inline-block",
-                                            marginLeft: "4px",
-                                            fontSize: "1.2em",
-                                        }}
-                                    >
-                                        ↓
-                                    </span>
-                                </button>
-                            </td>
-                        </tr>
+                                {numberPage}
+                            </button>
+                        ))}
                     </tbody>
                 </table>
             </section>

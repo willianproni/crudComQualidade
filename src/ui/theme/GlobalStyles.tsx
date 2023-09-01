@@ -59,6 +59,7 @@ export function GlobalStyles({ themeName }: { themeName?: ThemeName }) {
     const theme = {
         primary: pallete[themeName || "indigo"],
         negative: pallete.red,
+        indigo: pallete.indigo,
         neutral: pallete.coolGrey,
     };
 
@@ -327,6 +328,7 @@ export function GlobalStyles({ themeName }: { themeName?: ThemeName }) {
                 }
                 tbody {
                     background-color: var(--color-basic-light);
+                    width: 100%;
                 }
                 tbody td {
                     padding: 10px;
@@ -351,6 +353,10 @@ export function GlobalStyles({ themeName }: { themeName?: ThemeName }) {
                 button[data-type="delete"]:hover,
                 button[data-type="delete"]:focus {
                     background-color: var(--color-negative-x050);
+                }
+                button[data-type="nav"]:hover,
+                button[data-type="nav"]:focus {
+                    background-color: var(--color-primary-x050);
                 }
                 button[data-type="load-more"] {
                     font-weight: bold;

@@ -96,21 +96,21 @@ function CLEAR_DB() {
     fs.writeFileSync(DB_FILE_PATH, ""); //Escrever documento vazio
 }
 
-// -- simulação --
-CLEAR_DB(); //Limpando o document
-//--------
-create("Primeira TODO"); //Criando o primeiro objeto
-//--------
-const responseTwoCreate = create("Segunda TODO"); //Criando o segundo objeto
-//--------
-const responseThreeCreate = create("Terceira TODO"); //Criando o terceiro objeto
-//--------
-deleteById(responseTwoCreate.id); // Deletando o segundo objeto criado
-//--------
-updateContentById(responseThreeCreate.id, "Atualização do content"); //Atualizando o terceiro objeto criado
-//--------
-// const todos = read(); //Lendo a lista de tarefas
+// // -- simulação --
+// CLEAR_DB(); //Limpando o document
 // //--------
-// // -- Visualização
-// console.log(todos); //Visualizar lista de tarefas
-// console.log("Tamanho da Todos: ", todos.length); //Verificar tamanho da lista de tarefas
+// create("Primeira TODO"); //Criando o primeiro objeto
+// //--------
+// const responseTwoCreate = create("Segunda TODO"); //Criando o segundo objeto
+// //--------
+// const responseThreeCreate = create("Terceira TODO"); //Criando o terceiro objeto
+// //--------
+// deleteById(responseTwoCreate.id); // Deletando o segundo objeto criado
+// //--------
+// updateContentById(responseThreeCreate.id, "Atualização do content"); //Atualizando o terceiro objeto criado
+// //--------
+// // const todos = read(); //Lendo a lista de tarefas
+// // //--------
+// // // -- Visualização
+// // console.log(todos); //Visualizar lista de tarefas
+// // console.log("Tamanho da Todos: ", todos.length); //Verificar tamanho da lista de tarefas

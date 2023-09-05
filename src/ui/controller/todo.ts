@@ -10,6 +10,20 @@ async function getListTodo({ pageNumber }: TodoControllerGetParams) {
     });
 }
 
+function filterTodoByContent<Todo>(
+    todos: Array<Todo & { content: string }>,
+    seach: string
+): Todo[] {
+    const homeTodos = todos.filter((todo) => {
+        const searchNormalized = seach.toLowerCase();
+        const contentNormalized = todo.content.toLowerCase();
+        return contentNormalized.includes(searchNormalized);
+    });
+
+    return homeTodos;
+}
+
 export const controller = {
     getListTodo,
+    filterTodoByContent,
 };

@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { GlobalStyles } from "@ui/theme/GlobalStyles";
 import { controller } from "@ui/controller/todo";
 const bg = "https://mariosouto.com/cursos/crudcomqualidade/bg";
@@ -12,30 +12,29 @@ interface HomeTodo {
 }
 
 export default function Page() {
-    const [initialLoadComplete, setInitialLoadComplete] = useState(false);
-    const [todoSearch, setTodoSearch] = useState("");
+    const initialLoadComplete = useRef(false);
+    const [search, setSearch] = useState("");
     const [totalPages, setTotalPages] = useState(0);
     const [todoList, setTodoList] = useState<HomeTodo[]>([]);
     const [loading, setLoading] = useState(true);
     const availablePages = [1, 2, 3, 4, 5];
     const totalAvailablePages = availablePages.slice(0, totalPages);
-
-    const homeTodos = todoList.filter((todo) => {
-        return todo.content
-            .toLocaleLowerCase()
-            .includes(todoSearch.toLocaleLowerCase());
-    });
+    const homeTodos = controller.filterTodoByContent<HomeTodo>(
+        todoList,
+        search
+    );
 
     useEffect(() => {
-        setInitialLoadComplete(true);
-        if (!initialLoadComplete) {
+        if (!initialLoadComplete.current) {
             controller
                 .getListTodo({ pageNumber: 1 })
                 .then(({ todos, totalPages }) => {
-                    console.log(`valor retornando:`, todos);
                     setTodoList(todos);
                     setTotalPages(totalPages);
+                })
+                .finally(() => {
                     setLoading(false);
+                    initialLoadComplete.current === true;
                 });
         }
     }, []);
@@ -63,9 +62,10 @@ export default function Page() {
                 <form>
                     <input
                         type="text"
+                        value={search}
                         placeholder="Filtrar lista atual, ex: Dentista"
                         onChange={function handleSearch(event) {
-                            setTodoSearch(event.target.value);
+                            setSearch(event.target.value);
                         }}
                     />
                 </form>
